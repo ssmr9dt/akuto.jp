@@ -29,7 +29,7 @@ io.on("connection", function(socket){
     });
 });
 
-server.listen(process.env.PORT || 443, process.env.IP || "0.0.0.0", function(){
+server.listen(process.env.PORT || 80, process.env.IP || "0.0.0.0", function(){
     var addr = server.address();
     console.log("Server listening at", addr.address + ":" + addr.port);
 });
