@@ -1,1 +1,3 @@
-# akuto.jp
+## Deploy
+
+1) gcloud app deploy

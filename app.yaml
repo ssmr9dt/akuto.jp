@@ -1,0 +1,6 @@
+runtime: nodejs
+env: flex
+threadsafe: true
+instance_class: F1
+#automatic_scaling:
+#    min_idle_instances: 1

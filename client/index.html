@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lan="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Multiple synchro platform</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-sclable=no" />
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <script>
+            var px = py = 0;
+            var widthx  = 1920/64;
+            var heighty = 1080/36;
+            
+            function AddTrail(x,y,color,animation_type){
+                var d = document.createElement("div");
+                $(d).addClass("trail")
+                    .css({
+                        width: widthx,
+                        height: heighty,
+                        backgroundColor: "#" + color,
+                        left: x,
+                        top: y
+                    });
+                    
+                animation_type = animation_type || 0;
+                var anim = { opacity: 0 };
+                switch(animation_type) {
+                    case 1:
+                        anim = { x: "-"+(x+widthx)+"px", opacity: 0 };
+                        break;
+                    case 2:
+                        anim = { y: "-"+(y+heighty)+"px", opacity: 0 };
+                        break;
+                    case 3:
+                        anim = { x: ($("body").width()-x)+"px", opacity: 0 };
+                        break;
+                    case 4:
+                        anim = { y: ($("body").height()-y)+"px", opacity: 0 };
+                        break;
+                    case 5:
+                        anim = { rotate: "728deg", opacity: 0 };
+                        break;
+                }
+                
+                $("body").append(d);
+                
+                setTimeout(function(){
+                    $(d).transition(anim, 7000+(~~(Math.random()*5000))-2500, "linear",
+                        function(){ $(d).remove(); }
+                    );
+                }, 200);
+            }
+            
+            jQuery(function(){
+                var socket = io.connect();
+                
+                widthx = widthx * ($("html").width()/1920);
+                heighty= heighty * ($("html").height()/1080);
+                
+                socket.on("pos", function(e){
+                    e.x = e.x * $("html").width();
+                    e.y = e.y * $("html").height();
+                    e.x = ~~(e.x/widthx)*widthx;
+                    e.y = ~~(e.y/heighty)*heighty;
+                    AddTrail(e.x,e.y,e.color,e.type);
+                });
+                
+                var func = function(e){
+                    var x = e.pageX, y = e.pageY;
+                    x = ~~(x/widthx)*widthx;
+                    y = ~~(y/heighty)*heighty;
+                    if (x===px && y===py)return;
+                    px = x;
+                    py = y;
+                    var anim_type = ~~(Math.random()*6);
+                    var color = (~~(Math.random() * 0xFFFFFF)).toString(16);
+                    AddTrail(x,y,color,anim_type);
+                    socket.emit("pos", {
+                        x: e.pageX/$("html").width(),
+                        y: e.pageY/$("html").height(),
+                        color: color,
+                        type: anim_type
+                    });
+                };
+                
+                $("html,body").click(func).mousemove(func);
+            })
+        </script>
+        <style>
+            .trail {
+                position: absolute;
+                left: 0; top: 0;
+                width: 100px;
+                height: 100px;
+                background-color: #000000;
+                border-radius: 10px;
+            }
+            html, body {
+                height: 100%;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+    <body>
+    </body>
+</html>
