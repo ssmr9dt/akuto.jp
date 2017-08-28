@@ -1,6 +1,6 @@
 {
   "name": "akuto.jp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -15,7 +15,7 @@
   "dependencies": {
     "express": "^4.15.3",
     "socket.io": "^2.0.3",
-    "phaser": "^2.6.2"
+    "phaser-ce": "^2.8.4"
   },
   "devDependencies": {},
   "description": "Multiple synchro platform"

@@ -1,108 +1,101 @@
-<!DOCTYPE html>
-<html lan="ja">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Multiple synchro platform</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-sclable=no" />
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-        <script>
-            var px = py = 0;
-            var widthx  = 1920/64;
-            var heighty = 1080/36;
-            
-            function AddTrail(x,y,color,animation_type){
-                var d = document.createElement("div");
-                $(d).addClass("trail")
-                    .css({
-                        width: widthx,
-                        height: heighty,
-                        backgroundColor: "#" + color,
-                        left: x,
-                        top: y
-                    });
-                    
-                animation_type = animation_type || 0;
-                var anim = { opacity: 0 };
-                switch(animation_type) {
-                    case 1:
-                        anim = { x: "-"+(x+widthx)+"px", opacity: 0 };
-                        break;
-                    case 2:
-                        anim = { y: "-"+(y+heighty)+"px", opacity: 0 };
-                        break;
-                    case 3:
-                        anim = { x: ($("body").width()-x)+"px", opacity: 0 };
-                        break;
-                    case 4:
-                        anim = { y: ($("body").height()-y)+"px", opacity: 0 };
-                        break;
-                    case 5:
-                        anim = { rotate: "728deg", opacity: 0 };
-                        break;
-                }
-                
-                $("body").append(d);
-                
-                setTimeout(function(){
-                    $(d).transition(anim, 7000+(~~(Math.random()*5000))-2500, "linear",
-                        function(){ $(d).remove(); }
-                    );
-                }, 200);
-            }
-            
-            jQuery(function(){
-                var socket = io.connect();
-                
-                widthx = widthx * ($("html").width()/1920);
-                heighty= heighty * ($("html").height()/1080);
-                
-                socket.on("pos", function(e){
-                    e.x = e.x * $("html").width();
-                    e.y = e.y * $("html").height();
-                    e.x = ~~(e.x/widthx)*widthx;
-                    e.y = ~~(e.y/heighty)*heighty;
-                    AddTrail(e.x,e.y,e.color,e.type);
-                });
-                
-                var func = function(e){
-                    var x = e.pageX, y = e.pageY;
-                    x = ~~(x/widthx)*widthx;
-                    y = ~~(y/heighty)*heighty;
-                    if (x===px && y===py)return;
-                    px = x;
-                    py = y;
-                    var anim_type = ~~(Math.random()*6);
-                    var color = (~~(Math.random() * 0xFFFFFF)).toString(16);
-                    AddTrail(x,y,color,anim_type);
-                    socket.emit("pos", {
-                        x: e.pageX/$("html").width(),
-                        y: e.pageY/$("html").height(),
-                        color: color,
-                        type: anim_type
-                    });
-                };
-                
-                $("html,body").click(func).mousemove(func);
-            })
-        </script>
-        <style>
-            .trail {
-                position: absolute;
-                left: 0; top: 0;
-                width: 100px;
-                height: 100px;
-                background-color: #000000;
-                border-radius: 10px;
-            }
-            html, body {
-                height: 100%;
-                overflow: hidden;
-            }
-        </style>
-    </head>
-    <body>
-    </body>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>AkutoJP</title>
+  <meta name="apple-mobile-web-app-title" content="Fullscreen">
+  
+  <meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0 minimal-ui" />
+  
+  <meta http-equiv="X-UA-Compatible" content="chrome=1, IE=9">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="HandheldFriendly" content="true" />
+  
+  <meta name="robots" content="noindex,nofollow" />
+  
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <!-- Apple icons -->
+  <link rel="apple-touch-icon" href="assets/ui/icons/apple-touch-icon.png">
+  <!-- non-retina iPhone pre iOS 7 -->
+  <link rel="apple-touch-icon" sizes="57x57" href="assets/ui/icons/app_icon_57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="assets/ui/icons/app_icon_60x60.png">
+  <!-- non-retina iPad pre iOS 7 -->
+  <link rel="apple-touch-icon" sizes="72x72" href="assets/ui/icons/app_icon_72x72.png">
+  <!-- non-retina iPad iOS 7 -->
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/ui/icons/app_icon_76x76.png">
+  <!-- retina iPhone pre iOS 7 -->
+  <link rel="apple-touch-icon" sizes="114x114" href="assets/ui/icons/app_icon_114x114.png">
+  <!-- retina iPhone iOS 7 -->
+  <link rel="apple-touch-icon" sizes="120x120" href="assets/ui/icons/app_icon_120x120.png">
+  <!-- retina iPad pre iOS 7 -->
+  <link rel="apple-touch-icon" sizes="144x144" href="assets/ui/icons/app_icon_144x144.png">
+  <!-- retina iPad iOS 7 -->
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/ui/icons/app_icon_152x152.png">
+  <link rel="apple-touch-icon" sizes="256x256" href="assets/ui/icons/app_icon_256x256.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="assets/ui/icons/app_icon_512x512.png">
+  <link rel="apple-touch-icon" sizes="1024x1024" href="assets/ui/icons/app_icon_1024x1024.png">
+  
+  <meta property="og:url"           content="http://akuto.jp/" />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="AkutoJP" />
+  <meta property="og:description"   content="" />
+  <meta property="og:image"         content="http://www.your-domain.com/path/image.jpg" />
+
+  <link rel="stylesheet" href="css/fonts.css" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous" />
+  <!--<link rel="stylesheet" href="/css/bootstrap-responsive.min.css" />-->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  
+  <div class="site-wrapper">
+
+    <div class="site-wrapper-inner">
+  
+      <div class="cover-container">
+  
+        <div class="masthead clearfix">
+          <div class="inner">
+            <h3 class="masthead-brand">AkutoJP</h3>
+            <span class="twitter">助けを呼ぶ<a href="https://twitter.com/intent/tweet?button_hashtag=AkutoJP&text=%E3%81%93%E3%81%AE%E3%82%B2%E3%83%BC%E3%83%A0%E3%82%92%E6%89%8B%E4%BC%9D%E3%81%A3%E3%81%A6%EF%BC%81" class="twitter-hashtag-button" data-size="large" data-url="http://akuto.jp/">Tweet #AkutoJP</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></span>
+            <!--<nav class="nav nav-masthead">-->
+            <!--  <a class="nav-link active" href="#">Home</a>-->
+            <!--</nav>-->
+            <!--<div class="sns">-->
+              <!--<a href="#"><span class="icon-brand"></span></a>-->
+              <!--<a href="#"><span class="icon-brand4"></span></a>-->
+              <!--<span class="icon-brand"><a href="#"></a></span>-->
+              <!--<span class="icon-brand2"><a href="#"></a></span>-->
+              <!--<span class="icon-brand3"><a href="#"></a></span>-->
+            <!--</div>-->
+          </div>
+        </div>
+  
+        <div class="inner cover">
+          <div id="stage"></div>
+        </div>
+  
+        <!--<div class="mastfoot">-->
+        <!--  <div class="inner"></div>-->
+        <!--</div>-->
+  
+      </div>
+  
+    </div>
+
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+  <script src="phaser/phaser.min.js"></script>
+  
+  <script src="js/src/Game.js"></script>
+  <script src="js/main.js"></script>
+</body>
 </html>
