@@ -9,7 +9,7 @@ const server = http.createServer(router);
 const io = socketio.listen(server);
 
 function createVirtualHost(domainName, dirPath) {
-    return vhost(domainName, express.static(path.resolve(__idrname, dirPath)));
+    return vhost(domainName, express.static(path.resolve(__dirname, dirPath)));
 }
 
 router.use("/phaser", express.static(path.resolve(__dirname, "node_modules/phaser-ce/build/")));
