@@ -79,7 +79,8 @@ body {
 
 /* Padding for spacing */
 .inner {
-  padding: 2rem;
+  /*padding: 2rem;*/
+  padding: 0.5rem;
 }
 
 /*
@@ -92,9 +93,21 @@ body {
 
 #stage {
   cursor: url("../assets/cur.cur"), default;
-  width: calc(100% - 1em);
-  max-width: 1920px;
+  width: calc(100% - 1rem);
+  max-width: 1360px;
   margin: 0 auto;
+}
+
+@media screen and (max-height: 876px) {
+  /*#stage {*/
+  /*  height: 100px;*/
+  /*}*/
+  .masthead {
+    background-color: red;
+  }
+  #stage {
+    height: 100%;
+  }
 }
 
 .cover .btn-lg {
