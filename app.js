@@ -2,13 +2,21 @@ const http = require("http");
 const path = require("path");
 const socketio = require("socket.io");
 const express = require("express");
+const vhost = require("vhost");
 
 const router = express();
 const server = http.createServer(router);
 const io = socketio.listen(server);
 
+function createVirtualHost(domainName, dirPath) {
+    return vhost(domainName, express.static(path.resolve(__idrname, dirPath)));
+}
+
 router.use("/phaser", express.static(path.resolve(__dirname, "node_modules/phaser-ce/build/")));
 router.use(express.static(path.resolve(__dirname, "client")));
+
+router.use(createVirtualHost("ssmr9dt.com", "ssmr9dt/"));
+router.use("/ssmr9dt", express.static(path.resolve(__dirname, "ssmr9dt/")));
 
 
 io.on("connection", function(socket){
@@ -26,7 +34,16 @@ io.on("connection", function(socket){
             id: socket.id,
             x: e.x,
             y: e.y,
-        })
+        });
+    });
+    
+    socket.on("balloonmessage", function(e){
+        socket.broadcast.emit("balloonmessage", {
+            id: socket.id,
+            x: e.x,
+            y: e.y,
+            message: message
+        });
     });
 });
 
