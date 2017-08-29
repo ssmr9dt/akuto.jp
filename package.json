@@ -15,7 +15,8 @@
   "dependencies": {
     "express": "^4.15.3",
     "socket.io": "^2.0.3",
-    "phaser-ce": "^2.8.4"
+    "phaser-ce": "^2.8.4",
+    "vhost": "^3.0.2"
   },
   "devDependencies": {},
   "description": "Multiple synchro platform"
