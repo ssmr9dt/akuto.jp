@@ -172,7 +172,7 @@
 /* BG */
 
 	#bg {
-		-moz-animation: bg 60s linear infinite;
+/*		-moz-animation: bg 60s linear infinite;
 		-webkit-animation: bg 60s linear infinite;
 		-ms-animation: bg 60s linear infinite;
 		animation: bg 60s linear infinite;
@@ -183,11 +183,11 @@
 		-moz-transform: translate3d(0,0,0);
 		-webkit-transform: translate3d(0,0,0);
 		-ms-transform: translate3d(0,0,0);
-		transform: translate3d(0,0,0);
+		transform: translate3d(0,0,0); */
 	/* Set your background with this */
 
-		background: #348cb2 url("images/bg.jpg") bottom left;
-		background-repeat: repeat-x;
+/*		background: #348cb2 url("images/bg.jpg") bottom left;
+		background-repeat: repeat-x;*/
 		height: 100%;
 		left: 0;
 		opacity: 1;
@@ -521,6 +521,7 @@
 		}
 			#header h1 img {
 				border-radius: 1rem;
+				max-width: 25%;
 			}
 
 		#header p {
