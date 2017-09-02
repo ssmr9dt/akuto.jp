@@ -16,6 +16,7 @@ router.use("/phaser", express.static(path.resolve(__dirname, "node_modules/phase
 router.use(express.static(path.resolve(__dirname, "client")));
 
 router.use(createVirtualHost("ssmr9dt.com", "ssmr9dt/"));
+router.use(createVirtualHost("ssmr9dt.info", "ssmr9dt/"));
 router.use("/ssmr9dt", express.static(path.resolve(__dirname, "ssmr9dt/")));
 
 
