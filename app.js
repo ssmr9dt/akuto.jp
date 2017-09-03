@@ -49,7 +49,7 @@ io.on("connection", function(socket){
             id: socket.id,
             x: e.x,
             y: e.y,
-            message: message
+            message: e.message
         });
     });
 });
