@@ -12,12 +12,12 @@ function createVirtualHost(domainName, dirPath) {
     return vhost(domainName, express.static(path.resolve(__dirname, dirPath)));
 }
 
-router.use("/phaser", express.static(path.resolve(__dirname, "node_modules/phaser-ce/build/")));
-router.use(express.static(path.resolve(__dirname, "client")));
-
 router.use(createVirtualHost("ssmr9dt.com", "ssmr9dt/"));
 router.use(createVirtualHost("ssmr9dt.info", "ssmr9dt/"));
 router.use("/ssmr9dt", express.static(path.resolve(__dirname, "ssmr9dt/")));
+
+router.use("/phaser", express.static(path.resolve(__dirname, "node_modules/phaser-ce/build/")));
+router.use(express.static(path.resolve(__dirname, "client")));
 
 
 io.on("connection", function(socket){
