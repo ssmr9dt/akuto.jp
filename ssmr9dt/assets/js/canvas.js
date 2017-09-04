@@ -83,10 +83,10 @@
               const ly = g.world.height;
               const lx = g.world.width;
               const lly = ly/3*2 + ly/3/layers.length * layer.index;
-              p.push(new Phaser.Point(lx,lly))
+              p.push(new Phaser.Point(lx,lly));
               p.push(new Phaser.Point(lx,ly));
               p.push(new Phaser.Point(0,ly));
-              p.push(new Phaser.Point(0,lly))
+              p.push(new Phaser.Point(0,lly));
               const wave = ~~(lx/80);
               const aa = ly/3/layers.length;
               for(var wi=1; wi<wave; wi++) {
