@@ -93,7 +93,7 @@
                 const f = g.rnd.integerInRange(-aa/2,aa/2);
                 p.push(new Phaser.Point(lx/wave*wi,lly+f));
               }
-      
+
               const poly = new Phaser.Polygon();
               poly.setTo(p);
               const graphics = game.add.graphics(0,0);
@@ -108,6 +108,7 @@
               const tween1 = g.add.tween(sprite).to({x:0},layer.first ? 10 : layer.time*1000);
               tween1.onComplete.add(_L, g);
               const tween2 = g.add.tween(sprite).to({ x: -lx },layer.time*1000);
+              tween2.onComplete.add(function(){ sprite.destroy(); },g);
               tween1.chain(tween2);
               tween1.start();
               layer.first = false;
@@ -115,7 +116,12 @@
             })();
           })();
         }
-
+        
+        // var timer = this.time.create(true);
+        // timer.loop(2000, function(){
+        //   console.log(this.input.mousePointer.x);
+        // },this);
+        // timer.start();
       },
       update: function() {}
     });
