@@ -50,7 +50,7 @@
           // sprite.anchor.set(0.5);
           // this.sprite = sprite;
           
-          var emitter = this.add.emitter(this.world.centerX, -32, 10);
+          var emitter = this.add.emitter(this.world.centerX, -32, 20);
           emitter.makeParticles(graphics.generateTexture());
           emitter.setYSpeed(50,60);
           emitter.setXSpeed(-50,-60);
@@ -62,7 +62,7 @@
             emitter.setRotation(360,360);
           }
           
-          emitter.start(false, 20*1000,1000);
+          emitter.start(false, 20*1000, 1000);
           
           graphics.destroy();
         }
