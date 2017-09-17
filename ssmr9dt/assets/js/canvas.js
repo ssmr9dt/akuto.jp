@@ -68,11 +68,12 @@
         }
         
         var g = this;
+        // var resize_first_flag = false;
         const layers = [
-          { color: "0x007B77", first: true, time:  8 },
-          { color: "0x1D9582", first: true, time: 16 },
-          { color: "0x4DB392", first: true, time: 32 },
-          { color: "0x68C49C", first: true, time: 64 }
+          { color: "0x007B77", first: true, sprite:[], resize:false, time:  8 },
+          { color: "0x1D9582", first: true, sprite:[], resize:false, time: 16 },
+          { color: "0x4DB392", first: true, sprite:[], resize:false, time: 32 },
+          { color: "0x68C49C", first: true, sprite:[], resize:false, time: 64 }
         ];
         for (var layer_i=0; layer_i<layers.length; layer_i++) {
           (function(){
@@ -86,7 +87,12 @@
               p.push(new Phaser.Point(lx,lly));
               p.push(new Phaser.Point(lx,ly));
               p.push(new Phaser.Point(0,ly));
-              p.push(new Phaser.Point(0,lly));
+              // if (layer.resize) {
+              //   p.push(new Phaser.Point(0,ly));
+              //   layer.resize = false;
+              // }else{
+                p.push(new Phaser.Point(0,lly));
+              // }
               const wave = ~~(lx/80);
               const aa = ly/3/layers.length;
               for(var wi=1; wi<wave; wi++) {
@@ -112,10 +118,24 @@
               tween1.chain(tween2);
               tween1.start();
               layer.first = false;
+              // layer.sprite.push(sprite);
               graphics.destroy();
             })();
           })();
         }
+        
+        // this.game.scale.setResizeCallback(function(){
+        //   if (!!!resize_first_flag) {
+        //     resize_first_flag = true;
+        //     return;
+        //   }
+        //   for (var i=0,i_max=layers.length; i<i_max; i++) {
+        //     layers[i].resize = true;
+        //     for (var c=0,c_max=layers[i].sprite.length; c<c_max; c++) {
+        //       layers[i].sprite[c].y = 0;
+        //     }
+        //   }
+        // }, game);
         
         // var timer = this.time.create(true);
         // timer.loop(2000, function(){
